@@ -209,11 +209,14 @@ const download = () => {
   });
 
   frames.forEach((frame) => {
-    const ctx = frame.getContext("2d");
-    ctx.globalCompositeOperation = "destination-over";
+    const exportFrame = document.createElement("canvas");
+    const ctx = exportFrame.getContext("2d");
+    exportFrame.width = frame.width;
+    exportFrame.height = frame.height;
     ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, frame.width, frame.height);
-    gif.addFrame(frame, { delay: speed });
+    ctx.fillRect(0, 0, exportFrame.width, exportFrame.height);
+    ctx.drawImage(frame, 0, 0);
+    gif.addFrame(exportFrame, { delay: speed });
   });
 
   gif.on("finished", function (blob) {
