@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  font-family: "Readex Pro";
+}
+
+body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #aaaaaa;
+  gap: 10px;
+}
+
+canvas {
+  background-color: #ffffff;
+  border: 1px solid black;
+}
+
+button {
+  box-sizing: content-box;
+  width: 25px;
+  height: 25px;
+  padding: 10px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+#color {
+  position: relative;
+}
+
+#color > div {
+  height: 100%;
+  background-color: black;
+}
+
+#color-input {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+}
+
+#size {
+  width: 100px;
+  height: 25px;
+  padding: 10px;
+  box-sizing: content-box;
+}
+
+.canvas-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+#start,
+#left,
+#right,
+#end {
+  position: absolute;
+}
+
+#start {
+  left: -130px;
+}
+
+#left {
+  left: -70px;
+}
+
+#right {
+  right: -70px;
+}
+
+#end {
+  right: -130px;
+}
+
+#pause {
+  display: none;
+}
+
+#previous-frame {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 30%;
+}
+
+#previous-frame > canvas {
+  background-color: transparent;
+}
+
+.selected-speed {
+  scale: 1.1;
+}

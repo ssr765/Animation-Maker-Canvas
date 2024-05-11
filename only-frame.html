@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>dibujitos</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        user-select: none;
+      }
+
+      body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #aaaaaa;
+        gap: 10px;
+      }
+
+      canvas {
+        background-color: #ffffff;
+        border: 1px solid black;
+      }
+
+      button {
+        box-sizing: content-box;
+        width: 25px;
+        height: 25px;
+        padding: 10px;
+      }
+
+      .controls {
+        display: flex;
+        align-items: center;
+      }
+
+      #color {
+        position: relative;
+      }
+
+      #color > div {
+        height: 100%;
+        background-color: black;
+      }
+
+      #color-input {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        transform: translate(-50%, -50%);
+        visibility: hidden;
+      }
+
+      #size {
+        width: 100px;
+        height: 25px;
+        padding: 10px;
+        box-sizing: content-box;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <div class="controls">
+      <button onclick="changeSize(true)">-</button>
+      <input id="size" type="text" value="10" />
+      <button onclick="changeSize()">+</button>
+      <button onclick="colorInput.click()" id="color">
+        <div></div>
+        <input id="color-input" type="color" name="" id="" />
+      </button>
+      <button onclick="ctx.reset()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#000000" d="M18.258 3.508a.75.75 0 0 1 .463.693v4.243a.75.75 0 0 1-.75.75h-4.243a.75.75 0 0 1-.53-1.28L14.8 6.31a7.25 7.25 0 1 0 4.393 5.783a.75.75 0 0 1 1.488-.187A8.75 8.75 0 1 1 15.93 5.18l1.51-1.51a.75.75 0 0 1 .817-.162" /></svg>
+      </button>
+    </div>
+    <script>
+      const inputSize = document.getElementById("size");
+      const colorButton = document.querySelector("#color > div");
+      const colorInput = document.getElementById("color-input");
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      const cooldown = 2;
+
+      let x = 0;
+      let y = 0;
+      let color = "black";
+      let click = false;
+      let size = 10;
+      let inCooldown = false;
+
+      canvas.addEventListener("mousemove", (event) => {
+        prev_x = x;
+        prev_y = y;
+        x = event.offsetX;
+        y = event.offsetY;
+
+        if (click) {
+          if (!inCooldown) {
+            drawDot(x, y);
+            if (Math.abs(prev_x - x) > size / 3 || Math.abs(prev_y - y) > size / 3) {
+              trace(prev_x, prev_y);
+            }
+            inCooldown = true;
+            setTimeout(() => {
+              inCooldown = false;
+            }, cooldown);
+          }
+        }
+      });
+
+      addEventListener("mousedown", () => {
+        click = true;
+      });
+
+      canvas.addEventListener("mousedown", () => {
+        drawDot(x, y);
+      });
+
+      addEventListener("mouseup", () => {
+        click = false;
+      });
+
+      inputSize.addEventListener("input", () => {
+        if (inputSize.value.match(/^\d*$/)) {
+          size = inputSize.value;
+        } else {
+          inputSize.value = size;
+        }
+      });
+
+      colorInput.addEventListener("input", () => {
+        color = colorInput.value;
+        ctx.fillStyle = color;
+        colorButton.style.backgroundColor = color;
+      });
+
+      const trace = (prev_x, prev_y) => {
+        for (let i = 1; i <= 1000; i++) {
+          dot_x = prev_x + (i * (x - prev_x)) / (1000 + 1);
+          dot_y = prev_y + (i * (y - prev_y)) / (1000 + 1);
+
+          drawDot(dot_x, dot_y);
+        }
+      };
+
+      const drawDot = (x, y) => {
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, 2 * Math.PI);
+        ctx.fill();
+      };
+
+      const changeSize = (decrement = false) => {
+        const value = decrement ? -5 : 5;
+        const result = Number(inputSize.value) + value;
+
+        if (result != NaN) {
+          if (result > 0) {
+            inputSize.value = result;
+            size = result;
+          } else {
+            inputSize.value = 1;
+            size = 1;
+          }
+        }
+      };
+    </script>
+  </body>
+</html>
