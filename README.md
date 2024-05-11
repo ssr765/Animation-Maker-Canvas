@@ -1,4 +1,4 @@
-Si algo falla com l'altre vegada, que es bastant probable amb l'error:
+Si alguna cosa falla com l'altra vegada, que és bastant probable amb l'error:
 
 ```
 Uncaught DOMException: Failed to construct 'Worker': Script at 'path/.../assets/lib/gif.worker.js' cannot be accessed from origin 'null'.
@@ -10,7 +10,7 @@ Prova amb el live-server.
 npm install live-server
 ```
 
-#### Llibrería per la creació dels GIF
+#### Llibreria per la creació dels GIF
 
 - [gif.js](https://github.com/jnordberg/gif.js)
 
